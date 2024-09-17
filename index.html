@@ -1,64 +1,113 @@
-<!DOCTYPE HTML>
-<html>
-	<head>
-		<title>Sign In - Azure Web App</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
-		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
-	</head>
-	<body class="is-preload">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Software Process Documentation</title>
+    <style>
+        /* Basic styles for layout */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+        .sidebar {
+            width: 25%;
+            background-color: #f4f4f4;
+            padding: 20px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        }
+        .content {
+            width: 75%;
+            padding: 20px;
+        }
+        .button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .step {
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+        .step textarea {
+            width: 100%;
+            height: 80px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar for navigation -->
+        <div class="sidebar">
+            <h2>Documentation Tools</h2>
+            <div id="create-guide" class="button">New Guide</div>
+            <div id="find-guides" class="button">Find Guides</div>
+        </div>
 
-		<!-- Wrapper -->
-		<div id="wrapper" class="divided">
+        <!-- Main content area -->
+        <div class="content">
+            <h1>Welcome to the Documentation Site</h1>
+            <div id="guide-creator" style="display: none;">
+                <h2>Create a New Guide</h2>
+                <div id="steps-container"></div>
+                <div class="button" id="add-step">Add Step</div>
+                <div class="button" id="save-guide">Save Guide</div>
+            </div>
+            <div id="guide-list" style="display: none;">
+                <h2>Find Existing Guides</h2>
+                <!-- Placeholder for guides list -->
+                <p>No guides available.</p>
+            </div>
+        </div>
+    </div>
 
-			<!-- Sign In Section -->
-			<section class="wrapper style1 align-center">
-				<div class="inner medium">
-					<h2>Sign In</h2>
-					<form method="post" action="/signin">
-						<div class="fields">
-							<div class="field">
-								<label for="username">Username</label>
-								<input type="text" name="username" id="username" required />
-							</div>
-							<div class="field">
-								<label for="password">Password</label>
-								<input type="password" name="password" id="password" required />
-							</div>
-						</div>
-						<ul class="actions special">
-							<li><input type="submit" value="Sign In" /></li>
-						</ul>
-					</form>
-					<p><a href="#">Forgot your password?</a></p>
-				</div>
-			</section>
+    <!-- JavaScript to handle interactions -->
+    <script>
+        // Elements
+        const createGuideButton = document.getElementById('create-guide');
+        const findGuidesButton = document.getElementById('find-guides');
+        const guideCreator = document.getElementById('guide-creator');
+        const guideList = document.getElementById('guide-list');
+        const stepsContainer = document.getElementById('steps-container');
+        const addStepButton = document.getElementById('add-step');
 
-			<!-- Footer -->
-			<footer class="wrapper style1 align-center">
-				<div class="inner">
-					<ul class="icons">
-						<li><a href="#" class="icon brands style2 fa-twitter"><span class="label">Twitter</span></a></li>
-						<li><a href="#" class="icon brands style2 fa-facebook-f"><span class="label">Facebook</span></a></li>
-						<li><a href="#" class="icon brands style2 fa-instagram"><span class="label">Instagram</span></a></li>
-						<li><a href="#" class="icon brands style2 fa-linkedin-in"><span class="label">LinkedIn</span></a></li>
-						<li><a href="#" class="icon style2 fa-envelope"><span class="label">Email</span></a></li>
-					</ul>
-					<p>&copy; Untitled. Design: <a href="https://html5up.net">HTML5 UP</a>.</p>
-				</div>
-			</footer>
+        // Show the guide creation section
+        createGuideButton.addEventListener('click', () => {
+            guideCreator.style.display = 'block';
+            guideList.style.display = 'none';
+        });
 
-		</div>
+        // Show the guides list section
+        findGuidesButton.addEventListener('click', () => {
+            guideList.style.display = 'block';
+            guideCreator.style.display = 'none';
+        });
 
-		<!-- Scripts -->
-		<script src="assets/js/jquery.min.js"></script>
-		<script src="assets/js/jquery.scrollex.min.js"></script>
-		<script src="assets/js/jquery.scrolly.min.js"></script>
-		<script src="assets/js/browser.min.js"></script>
-		<script src="assets/js/breakpoints.min.js"></script>
-		<script src="assets/js/util.js"></script>
-		<script src="assets/js/main.js"></script>
-
-	</body>
+        // Add a new step to the guide
+        addStepButton.addEventListener('click', () => {
+            const step = document.createElement('div');
+            step.classList.add('step');
+            step.innerHTML = `
+                <textarea placeholder="Describe this step..."></textarea>
+                <div>
+                    <input type="file" accept="image/*" />
+                </div>
+            `;
+            stepsContainer.appendChild(step);
+        });
+    </script>
+</body>
 </html>
