@@ -186,8 +186,14 @@ function editGuide(guide) {
         stepElement.classList.add('step');
         stepElement.innerHTML = `
             <textarea>${step}</textarea>
+            <input type="file" class="image-upload" accept="image/*">
+            <div class="step-image-preview"></div> <!-- To display the uploaded image -->
         `;
         stepsContainer.appendChild(stepElement);
+
+        // Attach the event listener for the image upload
+        const imageUploadInput = stepElement.querySelector('.image-upload');
+        imageUploadInput.addEventListener('change', handleImageUpload);
     });
 
     // Set the currentGuideId to know which guide is being edited
@@ -205,9 +211,42 @@ addStepButton.addEventListener('click', () => {
     step.classList.add('step');
     step.innerHTML = `
         <textarea placeholder="Describe this step..."></textarea>
+        <input type="file" class="image-upload" accept="image/*">
+        <div class="step-image-preview"></div> <!-- To display the uploaded image -->
     `;
     stepsContainer.appendChild(step);
+
+    // Attach the event listener for the image upload
+    const imageUploadInput = step.querySelector('.image-upload');
+    imageUploadInput.addEventListener('change', handleImageUpload);
 });
+
+// Function to handle the image upload
+function handleImageUpload(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    // Validate file type (optional)
+    if (!file.type.startsWith('image/')) {
+        alert('Please upload a valid image file.');
+        return;
+    }
+
+    // Create a FileReader to read the file
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        // Display the image preview
+        const previewContainer = event.target.nextElementSibling; // .step-image-preview
+        previewContainer.innerHTML = `<img src="${e.target.result}" alt="Step Image" style="max-width: 100%; border-radius: 5px;">`;
+        
+        // Store the image data (as base64) for saving later
+        // You can store this data in the guide step object
+        event.target.dataset.imageData = e.target.result; // Store base64 in a data attribute
+    };
+    
+    // Read the image file as a data URL
+    reader.readAsDataURL(file);
+}
 
 // Save the new guide or update an existing one
 saveGuideButton.addEventListener('click', () => {
@@ -219,9 +258,16 @@ saveGuideButton.addEventListener('click', () => {
         return;
     }
 
-    // Gather steps content
-    const steps = Array.from(stepsContainer.querySelectorAll('textarea')).map(textarea => textarea.value.trim()).filter(text => text !== '');
-    const content = steps.length > 0 ? steps.join('<br><br>') : 'No steps provided.';
+    // Gather steps content and images
+    const steps = Array.from(stepsContainer.querySelectorAll('.step')).map(step => {
+        const text = step.querySelector('textarea').value.trim();
+        const imageData = step.querySelector('.image-upload').dataset.imageData || ''; // Get stored image base64
+        return { text, imageData };
+    }).filter(step => step.text !== '' || step.imageData !== '');
+
+    const content = steps.map(step => {
+        return `${step.text}<br><img src="${step.imageData}" alt="Step Image"><br>`;
+    }).join('<br><br>');
 
     // Create or update the guide
     const guide = { title: title, description: description, content: content };
