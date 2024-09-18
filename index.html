@@ -46,6 +46,11 @@
             width: 100%;
             height: 80px;
         }
+        .guide-item {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
@@ -69,18 +74,27 @@
             <div id="guide-list" style="display: none;">
                 <h2>Find Existing Guides</h2>
                 <!-- Placeholder for guides list -->
-                <p>No guides available.</p>
+                <div id="guides-container">
+                    <p>No guides available.</p>
+                </div>
             </div>
         </div>
     </div>
 
     <!-- JavaScript to handle interactions -->
     <script>
+        // Sample data - this would typically come from a server or database
+        const guides = [
+            { title: "Guide 1", description: "This is the first guide." },
+            { title: "Guide 2", description: "This is the second guide." }
+        ];
+
         // Elements
         const createGuideButton = document.getElementById('create-guide');
         const findGuidesButton = document.getElementById('find-guides');
         const guideCreator = document.getElementById('guide-creator');
         const guideList = document.getElementById('guide-list');
+        const guidesContainer = document.getElementById('guides-container');
         const stepsContainer = document.getElementById('steps-container');
         const addStepButton = document.getElementById('add-step');
 
@@ -94,7 +108,28 @@
         findGuidesButton.addEventListener('click', () => {
             guideList.style.display = 'block';
             guideCreator.style.display = 'none';
+            displayGuides();
         });
+
+        // Display guides
+        function displayGuides() {
+            // Clear previous guides
+            guidesContainer.innerHTML = '';
+
+            // Check if guides are available
+            if (guides.length === 0) {
+                guidesContainer.innerHTML = '<p>No guides available.</p>';
+                return;
+            }
+
+            // Create and append guide elements
+            guides.forEach(guide => {
+                const guideItem = document.createElement('div');
+                guideItem.classList.add('guide-item');
+                guideItem.innerHTML = `<h3>${guide.title}</h3><p>${guide.description}</p>`;
+                guidesContainer.appendChild(guideItem);
+            });
+        }
 
         // Add a new step to the guide
         addStepButton.addEventListener('click', () => {
