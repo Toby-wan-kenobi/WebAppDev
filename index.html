@@ -4,87 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Software Process Documentation</title>
-    <style>
-        /* Basic styles for layout */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            display: flex;
-            height: 100vh;
-        }
-        .sidebar {
-            width: 25%;
-            background-color: #f4f4f4;
-            padding: 20px;
-            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-        }
-        .content {
-            width: 75%;
-            padding: 20px;
-        }
-        .button {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            background-color: #007bff;
-            color: white;
-            text-align: center;
-            text-decoration: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .step {
-            margin-bottom: 20px;
-            border: 1px solid #ddd;
-            padding: 10px;
-        }
-        .step textarea {
-            width: 100%;
-            height: 80px;
-        }
-        .guide-item {
-            border: 1px solid #ddd;
-            padding: 10px;
-            margin-bottom: 10px;
-            cursor: pointer;
-        }
-        .guide-item:hover {
-            background-color: #f0f0f0;
-        }
-        .guide-item div {
-            margin-top: 10px;
-        }
-        .guide-item button {
-            margin-right: 5px;
-        }
-    </style>
+    <!-- Link to the external CSS file -->
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
         <!-- Sidebar for navigation -->
         <div class="sidebar">
-            <h2>Documentation Tools</h2>
+            <h2>Documentation</h2>
             <div id="create-guide" class="button">New Guide</div>
             <div id="find-guides" class="button">Find Guides</div>
         </div>
 
         <!-- Main content area -->
         <div class="content">
-            <h1>Welcome to the Documentation Site</h1>
+            <h1>Welcome</h1>
             <div id="guide-creator" style="display: none;">
                 <h2>Create a New Guide</h2>
-                <input type="text" id="guide-title" placeholder="Guide Title" style="width: 100%; margin-bottom: 10px;">
-                <textarea id="guide-description" placeholder="Guide Description" style="width: 100%; height: 80px; margin-bottom: 10px;"></textarea>
+                <input type="text" id="guide-title" placeholder="Guide Title">
+                <textarea id="guide-description" placeholder="Guide Description"></textarea>
                 <div id="steps-container"></div>
                 <div class="button" id="add-step">Add Step</div>
                 <div class="button" id="save-guide">Save Guide</div>
             </div>
             <div id="guide-list" style="display: none;">
-                <h2>Find Existing Guides</h2>
+                <h2>Existing Guides</h2>
                 <div id="guides-container">
                     <p>No guides available.</p>
                 </div>
