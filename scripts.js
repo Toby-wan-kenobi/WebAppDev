@@ -257,3 +257,20 @@ backToListButton.addEventListener('click', () => {
     guideDetails.style.display = 'none';
     guideList.style.display = 'block';
 });
+
+// Event listener to swap images on hover
+document.querySelectorAll('.thumbnail').forEach(thumbnail => {
+    thumbnail.addEventListener('mouseover', (event) => {
+        // Get the main image element
+        const mainImage = event.target.closest('.guide-step').querySelector('.main-image img');
+
+        // Store the main image src temporarily
+        const tempSrc = mainImage.src;
+
+        // Swap the main image src with the hovered thumbnail src
+        mainImage.src = event.target.src;
+
+        // Set the hovered thumbnail src to the original main image src
+        event.target.src = tempSrc;
+    });
+});
