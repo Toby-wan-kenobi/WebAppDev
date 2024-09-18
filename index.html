@@ -71,6 +71,8 @@
             <h1>Welcome to the Documentation Site</h1>
             <div id="guide-creator" style="display: none;">
                 <h2>Create a New Guide</h2>
+                <input type="text" id="guide-title" placeholder="Guide Title" style="width: 100%; margin-bottom: 10px;">
+                <textarea id="guide-description" placeholder="Guide Description" style="width: 100%; height: 80px; margin-bottom: 10px;"></textarea>
                 <div id="steps-container"></div>
                 <div class="button" id="add-step">Add Step</div>
                 <div class="button" id="save-guide">Save Guide</div>
@@ -108,12 +110,16 @@
         const backToListButton = document.getElementById('back-to-list');
         const stepsContainer = document.getElementById('steps-container');
         const addStepButton = document.getElementById('add-step');
+        const saveGuideButton = document.getElementById('save-guide');
+        const guideTitleInput = document.getElementById('guide-title');
+        const guideDescriptionInput = document.getElementById('guide-description');
 
         // Show the guide creation section
         createGuideButton.addEventListener('click', () => {
             guideCreator.style.display = 'block';
             guideList.style.display = 'none';
             guideDetails.style.display = 'none';
+            resetGuideCreator();
         });
 
         // Show the guides list section
@@ -165,6 +171,40 @@
             `;
             stepsContainer.appendChild(step);
         });
+
+        // Save the new guide
+        saveGuideButton.addEventListener('click', () => {
+            const title = guideTitleInput.value.trim();
+            const description = guideDescriptionInput.value.trim();
+
+            if (title === '' || description === '') {
+                alert('Please provide both a title and a description for the guide.');
+                return;
+            }
+
+            // Gather steps content
+            const steps = Array.from(stepsContainer.querySelectorAll('textarea')).map(textarea => textarea.value.trim()).filter(text => text !== '');
+            const content = steps.length > 0 ? steps.join('<br><br>') : 'No steps provided.';
+
+            // Create a new guide object and add to the guides array
+            const newGuide = { title: title, description: description, content: content };
+            guides.push(newGuide);
+
+            // Clear the guide creation form
+            resetGuideCreator();
+
+            // Navigate to the guide list
+            guideList.style.display = 'block';
+            guideCreator.style.display = 'none';
+            displayGuides();
+        });
+
+        // Reset the guide creation form
+        function resetGuideCreator() {
+            guideTitleInput.value = '';
+            guideDescriptionInput.value = '';
+            stepsContainer.innerHTML = '';
+        }
 
         // Go back to the guide list
         backToListButton.addEventListener('click', () => {
