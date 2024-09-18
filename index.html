@@ -50,6 +50,10 @@
             border: 1px solid #ddd;
             padding: 10px;
             margin-bottom: 10px;
+            cursor: pointer;
+        }
+        .guide-item:hover {
+            background-color: #f0f0f0;
         }
     </style>
 </head>
@@ -73,10 +77,14 @@
             </div>
             <div id="guide-list" style="display: none;">
                 <h2>Find Existing Guides</h2>
-                <!-- Placeholder for guides list -->
                 <div id="guides-container">
                     <p>No guides available.</p>
                 </div>
+            </div>
+            <div id="guide-details" style="display: none;">
+                <h2>Guide Details</h2>
+                <div id="guide-content"></div>
+                <div class="button" id="back-to-list">Back to Guides</div>
             </div>
         </div>
     </div>
@@ -85,8 +93,8 @@
     <script>
         // Sample data - this would typically come from a server or database
         const guides = [
-            { title: "Guide 1", description: "This is the first guide." },
-            { title: "Guide 2", description: "This is the second guide." }
+            { title: "Guide 1", description: "This is the first guide.", content: "Detailed steps of Guide 1..." },
+            { title: "Guide 2", description: "This is the second guide.", content: "Detailed steps of Guide 2..." }
         ];
 
         // Elements
@@ -94,7 +102,10 @@
         const findGuidesButton = document.getElementById('find-guides');
         const guideCreator = document.getElementById('guide-creator');
         const guideList = document.getElementById('guide-list');
+        const guideDetails = document.getElementById('guide-details');
         const guidesContainer = document.getElementById('guides-container');
+        const guideContent = document.getElementById('guide-content');
+        const backToListButton = document.getElementById('back-to-list');
         const stepsContainer = document.getElementById('steps-container');
         const addStepButton = document.getElementById('add-step');
 
@@ -102,12 +113,14 @@
         createGuideButton.addEventListener('click', () => {
             guideCreator.style.display = 'block';
             guideList.style.display = 'none';
+            guideDetails.style.display = 'none';
         });
 
         // Show the guides list section
         findGuidesButton.addEventListener('click', () => {
             guideList.style.display = 'block';
             guideCreator.style.display = 'none';
+            guideDetails.style.display = 'none';
             displayGuides();
         });
 
@@ -123,12 +136,21 @@
             }
 
             // Create and append guide elements
-            guides.forEach(guide => {
+            guides.forEach((guide, index) => {
                 const guideItem = document.createElement('div');
                 guideItem.classList.add('guide-item');
                 guideItem.innerHTML = `<h3>${guide.title}</h3><p>${guide.description}</p>`;
+                guideItem.addEventListener('click', () => openGuide(index));
                 guidesContainer.appendChild(guideItem);
             });
+        }
+
+        // Open a specific guide
+        function openGuide(index) {
+            const guide = guides[index];
+            guideContent.innerHTML = `<h3>${guide.title}</h3><p>${guide.content}</p>`;
+            guideDetails.style.display = 'block';
+            guideList.style.display = 'none';
         }
 
         // Add a new step to the guide
@@ -142,6 +164,12 @@
                 </div>
             `;
             stepsContainer.appendChild(step);
+        });
+
+        // Go back to the guide list
+        backToListButton.addEventListener('click', () => {
+            guideDetails.style.display = 'none';
+            guideList.style.display = 'block';
         });
     </script>
 </body>
